@@ -18,7 +18,8 @@ require (
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
 	github.com/robertkrimen/otto v0.0.0-20200922221731-ef014fd054ac // indirect
 	github.com/robfig/cron v1.2.0 // indirect
-	github.com/sensu/sensu-go v0.0.0-00010101000000-000000000000 // indirect
+	github.com/sensu/sensu-go v0.0.0-00010101000000-000000000000
+	github.com/sensu/sensu-go/types v0.1.0
 	github.com/sensu/yaml v2.1.0+incompatible // indirect
 	github.com/sirupsen/logrus v1.7.0 // indirect
 	github.com/spf13/cobra v1.1.1 // indirect
