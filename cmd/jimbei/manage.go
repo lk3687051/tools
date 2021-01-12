@@ -10,6 +10,7 @@ import (
   // "github.com/sensu/sensu-go/cli/client/config/inmemory"
 )
 
+
 func main()  {
   conf := config.New("http://127.0.0.1:32613")
   c := client.New(conf)
