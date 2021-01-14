@@ -1,0 +1,12 @@
+---
+- hosts: agent
+  tasks:
+  - name: configuration
+    sensu_config_amd:
+      state: absent
+    when: ansible_architecture == "x86_64"
+
+  - name: configuration
+    sensu_config_arm:
+      state: absent
+    when: ansible_architecture == "aarch64"
