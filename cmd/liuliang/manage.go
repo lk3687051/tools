@@ -1,7 +1,7 @@
 package main
 import (
   "fmt"
-  // "strings"
+  "strings"
   "net/http"
   "github.com/sensu/sensu-go/cli/client"
   "tools/helper/config"
@@ -31,8 +31,10 @@ func main()  {
   for _, entity := range entitys {
     if entity.EntityClass == corev2.EntityProxyClass {
       if len(entity.Subscriptions) == 1 {
-        fmt.Println(entity.ObjectMeta.Name)
-        c.DeleteEntity(entity.ObjectMeta.Namespace, entity.ObjectMeta.Name)
+        if strings.Contains(entity.Subscriptions[0], "entity:") && entity.ObjectMeta.Name != "Sensu" {
+          fmt.Printf("Now we are delete entity %s\n", entity.ObjectMeta.Name)
+          c.DeleteEntity(entity.ObjectMeta.Namespace, entity.ObjectMeta.Name)
+        }
       }
       // fmt.Println(entity.ObjectMeta.Name)
     }

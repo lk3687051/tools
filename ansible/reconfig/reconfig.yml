@@ -1,0 +1,44 @@
+---
+- hosts: agent
+  tasks:
+  - name: 备份配置文件
+    copy:
+      src: /apps/svr/sensu-agent-ops/conf/agent.yml
+      dest: /apps/svr/sensu-agent-ops/conf/agent.yml.backup
+
+  - name: 注册原始状态
+    command: "sudo systemctl status sensu-agent-ops"
+    register: sensu-status
+
+  - name: 修改配置文件
+    sensu_config_amd:
+      state: absent
+    register: config
+    when: ansible_architecture == "x86_64"
+
+  - name: 修改配置文件
+    sensu_config_arm:
+      state: absent
+    register: config
+    when: ansible_architecture == "aarch64"
+
+  - name: 如果原始状态为0, 需要重启客户端
+    command: sudo systemctl restart sensu-agent-ops
+    register: sensu-agent
+    when:
+      - config.changed
+      - sensu-status.status = 0
+
+  - name: 如果不正常回退脚本
+    command: sudo systemctl status sensu-agent-ops
+    register: sensu-status
+    when:
+      - config.changed
+      - sensu-agent.changed
+
+  - name: 重启服务
+    command: sudo systemctl restart sensu-agent-ops
+    register: sensu-status
+    when:
+      - config.changed
+      - sensu-agent.changed
