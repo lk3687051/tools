@@ -1,0 +1,9 @@
+1. 更新菜单excel 文件名称为 菜单.xlsx
+2. 双击menu文件
+3. 如果出现菜品不在规则库里面的，需要在规则库中添加该菜品，第一列名称第二列菜品类型。
+   如果自动添加的菜品图片连接不好看，需要更新第三列
+4. 完成以上步骤，复制生成的html到96微信里面
+5. 完成
+6. 如果涉及界面调整，请联系陆康
+7. 如果需要自己搜索请使用以下url。保证图片大小
+   https://image.baidu.com/search/index?ct=201326592&z=&tn=baiduimage&word=土豆烧肉&pn=0&ie=utf-8&oe=utf-8&cl=2&lm=-1&fr=&se=&sme=&width=640&height=480

@@ -24,6 +24,7 @@ require (
 	github.com/sirupsen/logrus v1.7.0 // indirect
 	github.com/spf13/cobra v1.1.1 // indirect
 	github.com/stretchr/testify v1.6.1 // indirect
+	github.com/tealeg/xlsx/v3 v3.2.3 // indirect
 	github.com/willf/pad v0.0.0-20200313202418-172aa767f2a4 // indirect
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect
 	golang.org/x/net v0.0.0-20201224014010-6772e930b67b // indirect

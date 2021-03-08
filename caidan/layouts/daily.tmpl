@@ -1,0 +1,130 @@
+{{template "main.tmpl" .}}
+{{define "daily"}}
+
+<section>
+    <section data-md5="a33ee">
+        <section data-md5="a33ee">
+            <section data-md5="a33ee" style="display: inline-block;">
+                <section data-md5="a33ee" style="margin-right: 10px; margin-left: 5px; display: -webkit-box; -webkit-box-pack: justify; -webkit-box-align: end;">
+                    <section data-md5="a33ee" style="width: 40px;">
+                        <img src="http://newcdn.96weixin.com/mmbiz.qlogo.cn/mmbiz_png/6gdoibJf8UkYchluSA7sdrribuce9Zl9XtYfL4SqMsHicLRbmQOe2s7s01AW8uN5JrBYz4L20RqrQibrBCORZklFDA/640?wx_fmt=png" style="width: 40px; vertical-align: middle;"/>
+                    </section>
+                    <section data-md5="a33ee" style="margin-bottom: 12px; width: 15px;">
+                        <img src="http://newcdn.96weixin.com/mmbiz.qlogo.cn/mmbiz_png/6gdoibJf8UkYchluSA7sdrribuce9Zl9XtFxC5vGcbf3icVNGyomicDZSKBicibCv1eY2gqUrdQHefrbEyIZmAx3K7NA/640?wx_fmt=png" style="width: 15px; vertical-align: middle;"/>
+                    </section>
+                </section>
+                <section data-md5="a33ee" style="margin: -19px 10px -6px; padding: 3px 20px; background-color: #ffd22c; border-radius: 0px 0px 0px 6px;">
+                    <section data-md5="a33ee" style="color: #ff513a; letter-spacing: 1px; line-height: 24px; text-align: right;">
+                        <p data-md5="a33ee" style="font-size: 14px;">
+                            {{.DailyName}}
+                        </p>
+                    </section>
+                </section>
+                <section data-md5="a33ee" style="margin-right: 10px; text-align: right;">
+                    <section data-md5="a33ee" style="width: 80px; display: inline-block;">
+                        <img src="http://newcdn.96weixin.com/mmbiz.qlogo.cn/mmbiz_png/6gdoibJf8UkYchluSA7sdrribuce9Zl9XtvEiaQCPgyo1ibuRcy6iaGrSic5KFjRWAtibp2Rbjsmnk1vm0ibrhrBbbdncg/640?wx_fmt=png" style="width: 80px; vertical-align: top;"/>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+    <p>
+        <br/>
+    </p>
+</section>
+<section data-md5="a33ee">
+    <section data-md5="a33ee" style="margin-right: 5px; margin-left: 5px; display: -webkit-box; -webkit-box-pack: justify; -webkit-box-align: start;">
+        <section data-md5="a33ee" style="width: 40px;">
+            <img src="http://newcdn.96weixin.com/mmbiz.qlogo.cn/mmbiz_png/6gdoibJf8UkYchluSA7sdrribuce9Zl9XtYfL4SqMsHicLRbmQOe2s7s01AW8uN5JrBYz4L20RqrQibrBCORZklFDA/640?wx_fmt=png" style="width: 40px; vertical-align: middle;"/>
+        </section>
+        <section data-md5="a33ee" style="margin-top: 2px; width: 25px;">
+            <img src="http://newcdn.96weixin.com/mmbiz.qlogo.cn/mmbiz_png/6gdoibJf8UkYchluSA7sdrribuce9Zl9XtboGiciaGAicCl1TX5ibSwW2ZeyEDoqcfBAdxicQ7LEjwzE4yfKCia7LlhJLQ/640?wx_fmt=png" style="width: 25px; vertical-align: middle;"/>
+        </section>
+    </section>
+    <section data-md5="a33ee" style="margin: -26px 12px -36px 10px; padding-top: 6px; padding-right: 20px; padding-left: 20px; background-color: #ffd22c;">
+        <section data-md5="c8466">
+            <section data-md5="c8466" style="display: flex;">
+                <section data-md5="c8466" data-width="100%" style="width: 100%;">
+                    <section data-md5="c8466" style="padding-top: 10px; padding-bottom: 10px; background: #ffd658;">
+                        <section data-md5="c8466" data-width="100%" style="border-top: 3px solid #ffffff; border-bottom: 3px solid #ffffff; border-left: none; border-right: none; overflow-x: auto; width: 100%; white-space: nowrap; display: flex;">
+                            {{range $i, $v := .Dishes}}
+                                <section data-md5="c8466" data-width="75%" style="margin-right: 5px; flex-shrink: 0; width: 75%;">
+                                    <!-- <img src="http://newcdn.96weixin.com/mmbiz.qlogo.cn/mmbiz_jpg/ibBYoOrOhdibaOW6vOLia7a3lDsn5oLz0NfvjnSkvVqAdhAgDLo8fyD4VKmFnpjfEbvD6tPPmBWtuoKTIkxnWfvpg/640?wx_fmt=jpeg" data-width="100%" style="vertical-align: middle; width: 100%;"/> -->
+                                    <!-- <img src="https://img1.baidu.com/it/u=648189742,3223498422&fm=26&fmt=auto&gp=0.jpg" data-width="100%" style="vertical-align: middle; width: 100%;"/> -->
+                                    <img src="{{.Url}}" data-width="100%" style="vertical-align: middle; width: 100%;"/>
+                                </section>
+                            {{end}}
+                        </section>
+                    </section>
+                </section>
+                <section data-md5="c8466" style="margin-left: -35px; display: inline-block; vertical-align: middle; width: 35px; background: #ff8959; border-right: 2px solid #ffffff; border-left: 2px solid #ffffff; border-top: none; border-bottom: none; transform: translate(-15px, 0px);">
+                    <section data-md5="c8466" style="padding-top: 20px; padding-bottom: 20px;">
+                        <section data-md5="c8466" style="margin: auto auto 10px; width: 15px; height: 15px; background: #ffffff; border-radius: 50%;">
+                            <section data-md5="c8466" style="color: #ff8959; letter-spacing: 1px; line-height: 15px;">
+                                <p data-md5="c8466" style="font-size: 12px;">
+                                    <strong data-md5="c8466">←</strong>
+                                </p>
+                            </section>
+                        </section>
+                        <section data-md5="c8466" style="margin-bottom: 5px;">
+                            <section data-md5="c8466" style="color: #ffffff; letter-spacing: 5px; line-height: 31px; text-align: justify; -webkit-writing-mode: vertical-rl;">
+                                <p data-md5="c8466" style="font-size: 12px;">
+                                    左右滑动查看
+                                </p>
+                            </section>
+                        </section>
+                        <section data-md5="c8466" style="margin: auto; width: 15px; height: 15px; background: #ffffff; border-radius: 50%;">
+                            <section data-md5="c8466" style="color: #ff8959; letter-spacing: 1px; line-height: 15px;">
+                                <p data-md5="c8466" style="font-size: 12px;">
+                                    <strong data-md5="c8466">→</strong>
+                                </p>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </section>
+        </section>
+        <p>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+        </p>
+        <section data-md5="a33ee" style="margin-right: 25px; margin-left: 25px; display: -webkit-box; -webkit-box-pack: justify;">
+            <section data-md5="a33ee">
+                <section data-md5="a33ee" style="width: 10px; height: 10px; background-color: #ffffff; border-radius: 50%; display: inline-block; vertical-align: middle;">
+                    <br/>
+                </section>
+            </section>
+            <section data-md5="a33ee">
+                <section data-md5="a33ee" style="margin-right: 6px; margin-left: 6px; width: 10px; height: 10px; background-color: #ffffff; border-radius: 50%; display: inline-block; vertical-align: middle;">
+                    <img src="http://newcdn.96weixin.com/mmbiz.qlogo.cn/mmbiz_png/6gdoibJf8UkYchluSA7sdrribuce9Zl9XtFEh8a0zZFjks4b0HkwwPnOuMJNokeK0fFz8SDgibe0zXjjzcZRicla8A/640?wx_fmt=png" style="width: 40px; vertical-align: middle;"/><br/>
+                </section>
+            </section>
+        </section>
+    </section>
+</section>
+
+<section data-md5="19692" style="color: #67926d; letter-spacing: 1.5px;">
+    <section data-md5="19692" style="margin-left: 14.875px; display: inline-block; width: 669.594px; vertical-align: top;">
+        <section data-md5="19692" style="color: #595959; letter-spacing: 1px; line-height: 24px; text-align: justify;">
+            <section data-md5="a33ee" style="color: #000000; text-align: center; width: 40px;">
+                <img src="http://newcdn.96weixin.com/mmbiz.qlogo.cn/mmbiz_png/6gdoibJf8UkYchluSA7sdrribuce9Zl9XtFEh8a0zZFjks4b0HkwwPnOuMJNokeK0fFz8SDgibe0zXjjzcZRicla8A/640?wx_fmt=png" style="width: 40px; vertical-align: middle;"/>&nbsp; &nbsp; &nbsp;
+            </section>
+        </section>
+    </section>
+</section>
+
+
+
+<section style="color: #67926d; letter-spacing: 1.5px; text-align: justify;">
+    <section data-md5="19692" style="margin-top: 5px; margin-bottom: 5px; text-align: left;">
+        <section data-md5="19692" style="margin-left: 14.875px; display: inline-block; width: 669.594px; vertical-align: top;">
+            <section data-md5="19692" style="color: #595959; letter-spacing: 1px; line-height: 24px; text-align: justify;">
+                {{range $i, $v := .Dishes}} 
+                    <p data-md5="19692" style="font-size: 14px;">
+                        <span style="font-family: 微软雅黑;">{{.Type}}：{{.Name}}</span>
+                    </p>
+                {{end}}
+            </section>
+        </section>
+    </section>
+</section>
+{{end}}
