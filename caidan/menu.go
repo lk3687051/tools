@@ -53,6 +53,7 @@ func GetRuleIndex(name string) int {
 	rules = append(rules, d)
 	return len(rules) - 1
 }
+
 func getImg(url string, name string) {
 	imgPath := "./images/"
 	res, err := http.Get(url)
@@ -72,6 +73,7 @@ func getImg(url string, name string) {
 	written, _ := io.Copy(writer, reader)
 	fmt.Printf("Total length: %d", written)
 }
+
 func getImageurls(content string) []string {
 	urls := []string{}
 	reg := regexp.MustCompile(`middleURL":".*?"`)
@@ -82,36 +84,9 @@ func getImageurls(content string) []string {
 			s2 := reg2.FindAllStringSubmatch(_s[0], -1)
 			urls = append(urls, s2[0][0])
 		}
-		// fmt.Println(s)						//[[abc] [aac] [a.c] [a7c] [a c]]
 	}
 	return urls
 }
-
-// func download(name string)  string {
-// 	client := &http.Client{}
-// 	url := "https://image.baidu.com/search/index?ct=201326592&z=&tn=baiduimage&word="+name+"&pn=0&ie=utf-8&oe=utf-8&cl=2&lm=-1&fr=&se=&sme=&width=640&height=480"
-// 	req, _ := http.NewRequest("GET", url, nil)
-// 	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BIDUBrowser 2.6)")
-// 	req.Header.Set("Referer","https://www.baidu.com")
-// 	req.Header.Set("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,/;q=0.8,application/signed-exchange;v=b3;q=0.9")
-// 	resp, err := client.Do(req)
-// 	if err != nil {
-// 		fmt.Println("Http get err:", err)
-//         return ""
-// 	}
-// 	if resp.StatusCode != 200 {
-// 		fmt.Println("Http status code:", resp.StatusCode)
-// 		return ""
-// 	}
-// 	defer resp.Body.Close()
-// 	body, err := ioutil.ReadAll(resp.Body)
-// 	if err != nil {
-// 		fmt.Println("Read error", err)
-// 		return ""
-// 	}
-// 	urls := getImageurls(string(body))
-// 	return string(body)
-// }
 
 func GetDishUrl(name string) string {
 	client := &http.Client{}
