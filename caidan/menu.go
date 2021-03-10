@@ -1,32 +1,58 @@
 package main
+
 import (
-	"fmt"
 	"bufio"
-	"os"
+	"fmt"
 	"io"
-	"time"
-	"regexp"
-	"net/http"
-	"io/ioutil"
-	"html/template"
+	"os"
+	// "time"
+	"encoding/json"
 	"github.com/tealeg/xlsx/v3"
+	"html/template"
+	"io/ioutil"
+	"net/http"
+	"regexp"
 )
 
 type Dish struct {
-	Url string
-	Type string
-	Name string
+	Url  string `json:"url"`
+	Type string `json:"type"`
+	Name string `json:"name"`
 }
 
 type DailyMenu struct {
 	DailyName string
-	Dishes  []Dish
+	Dishes    []Dish
 }
 
 type Menu struct {
 	Dailys []DailyMenu
 }
 
+var rules []Dish
+
+func LoadRule() {
+	file, _ := ioutil.ReadFile("./rules.json")
+	_ = json.Unmarshal([]byte(file), &rules)
+}
+
+func SaveRule() {
+	file, _ := json.MarshalIndent(rules, "", " ")
+	_ = ioutil.WriteFile("./rules.json", file, 0644)
+}
+
+func GetRuleIndex(name string) int {
+	for i, d := range rules {
+		if d.Name == name {
+			return i
+		}
+	}
+	d := Dish{
+		Name: name,
+	}
+	rules = append(rules, d)
+	return len(rules) - 1
+}
 func getImg(url string, name string) {
 	imgPath := "./images/"
 	res, err := http.Get(url)
@@ -36,7 +62,7 @@ func getImg(url string, name string) {
 	}
 	defer res.Body.Close()
 	// 获得get请求响应的reader对象
-	reader := bufio.NewReaderSize(res.Body, 1024 * 1024)
+	reader := bufio.NewReaderSize(res.Body, 1024*1024)
 	file, err := os.Create(imgPath + name + ".jpg")
 	if err != nil {
 		panic(err)
@@ -50,54 +76,54 @@ func getImageurls(content string) []string {
 	urls := []string{}
 	reg := regexp.MustCompile(`middleURL":".*?"`)
 	reg2 := regexp.MustCompile(`https.*?.jpg`)
-	if(reg != nil){
-		s := reg.FindAllStringSubmatch(content,-1)   //-1表示全部匹配
+	if reg != nil {
+		s := reg.FindAllStringSubmatch(content, -1) //-1表示全部匹配
 		for _, _s := range s {
 			s2 := reg2.FindAllStringSubmatch(_s[0], -1)
-			urls = append(urls,s2[0][0])
+			urls = append(urls, s2[0][0])
 		}
 		// fmt.Println(s)						//[[abc] [aac] [a.c] [a7c] [a c]]
 	}
 	return urls
 }
-func download(name string)  string {
-	client := &http.Client{}
-	url := "https://image.baidu.com/search/index?ct=201326592&z=&tn=baiduimage&word="+name+"&pn=0&ie=utf-8&oe=utf-8&cl=2&lm=-1&fr=&se=&sme=&width=640&height=480"
-	req, _ := http.NewRequest("GET", url, nil)
-	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BIDUBrowser 2.6)")
-	req.Header.Set("Referer","https://www.baidu.com")
-	req.Header.Set("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,/;q=0.8,application/signed-exchange;v=b3;q=0.9")
-	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Println("Http get err:", err)
-        return ""
-	}
-	if resp.StatusCode != 200 {
-		fmt.Println("Http status code:", resp.StatusCode)
-		return ""
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println("Read error", err)
-		return ""
-	}
-	urls := getImageurls(string(body))
-	getImg(urls[0], name)
-	return string(body)
-}
 
-func GetMenuUrl(name string)  string {
+// func download(name string)  string {
+// 	client := &http.Client{}
+// 	url := "https://image.baidu.com/search/index?ct=201326592&z=&tn=baiduimage&word="+name+"&pn=0&ie=utf-8&oe=utf-8&cl=2&lm=-1&fr=&se=&sme=&width=640&height=480"
+// 	req, _ := http.NewRequest("GET", url, nil)
+// 	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BIDUBrowser 2.6)")
+// 	req.Header.Set("Referer","https://www.baidu.com")
+// 	req.Header.Set("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,/;q=0.8,application/signed-exchange;v=b3;q=0.9")
+// 	resp, err := client.Do(req)
+// 	if err != nil {
+// 		fmt.Println("Http get err:", err)
+//         return ""
+// 	}
+// 	if resp.StatusCode != 200 {
+// 		fmt.Println("Http status code:", resp.StatusCode)
+// 		return ""
+// 	}
+// 	defer resp.Body.Close()
+// 	body, err := ioutil.ReadAll(resp.Body)
+// 	if err != nil {
+// 		fmt.Println("Read error", err)
+// 		return ""
+// 	}
+// 	urls := getImageurls(string(body))
+// 	return string(body)
+// }
+
+func GetDishUrl(name string) string {
 	client := &http.Client{}
-	url := "https://image.baidu.com/search/index?ct=201326592&z=&tn=baiduimage&word="+name+"&pn=0&ie=utf-8&oe=utf-8&cl=2&lm=-1&fr=&se=&sme=&width=640&height=480"
+	url := "https://image.baidu.com/search/index?ct=201326592&z=&tn=baiduimage&word=" + name + "&pn=0&ie=utf-8&oe=utf-8&cl=2&lm=-1&fr=&se=&sme=&width=640&height=480"
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Set("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BIDUBrowser 2.6)")
-	req.Header.Set("Referer","https://www.baidu.com")
-	req.Header.Set("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,/;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	req.Header.Set("Referer", "https://www.baidu.com")
+	req.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,/;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Http get err:", err)
-        return ""
+		return ""
 	}
 	if resp.StatusCode != 200 {
 		fmt.Println("Http status code:", resp.StatusCode)
@@ -124,16 +150,16 @@ func parseexcel() *Menu {
 	// show all the sheets in the workbook
 	sh := wb.Sheets[0]
 	for i := 0; i <= 10; i++ {
-		theCell,_ := sh.Cell(1, i)
+		theCell, _ := sh.Cell(1, i)
 		if theCell.String() == "" {
 			continue
 		}
 		daily := DailyMenu{
 			DailyName: theCell.String(),
-			Dishes: []Dish{},
+			Dishes:    []Dish{},
 		}
 		for j := 2; j <= 10; j++ {
-			theCell,_ := sh.Cell(j, i)
+			theCell, _ := sh.Cell(j, i)
 			if theCell.String() != "" {
 				dish := Dish{
 					Name: theCell.String(),
@@ -146,28 +172,55 @@ func parseexcel() *Menu {
 	return menu
 }
 
-func ReadRule() map[string]Dish {
-	rules := map[string]Dish{}
-	wb, _ := xlsx.OpenFile("./rule.xlsx")
-	sh := wb.Sheets[0]
+func GetDishType(name string) string {
+	var t string
+	fmt.Printf("1: 大荤  2: 小荤  3: 水果  4: 主食 5: 蔬菜\n请输入 [%s] 类型: ", name)
+	fmt.Scanln(&t)
+	switch t {
+	case "1":
+		return "大荤"
+	case "2":
+		return "小荤"
+	case "3":
+		return "水果"
+	case "4":
+		return "主食"
+	case "5":
+		return "蔬菜"
+	default:
+		return t
+	}
+}
 
-	for i := 0; i < sh.MaxRow; i++ {
-		dish := Dish{}
-		NameCell,_ := sh.Cell(i, 0)
-		dish.Name = NameCell.String()
-		TypeCell,_ := sh.Cell(i, 1)
-		dish.Type = TypeCell.String()
-		UrlCell,_ := sh.Cell(i, 2)
-		dish.Url = UrlCell.String()
-		rules[dish.Name] = dish
+func main() {
+	LoadRule()
+	defer SaveRule()
+	// defer time.Sleep(60 * time.Second)
+
+	fmt.Println("亲爱的老婆程序启动了，请稍等片刻")
+	menu := parseexcel()
+	for index, _ := range menu.Dailys {
+		for index2, _ := range menu.Dailys[index].Dishes {
+			name := menu.Dailys[index].Dishes[index2].Name
+			rindex := GetRuleIndex(name)
+			if rules[rindex].Type == "" {
+				t := GetDishType(name)
+				menu.Dailys[index].Dishes[index2].Type = t
+				rules[rindex].Type = t
+			} else {
+				menu.Dailys[index].Dishes[index2].Type = rules[rindex].Type
+			}
+
+			if rules[rindex].Url == "" {
+				url := GetDishUrl(name)
+				menu.Dailys[index].Dishes[index2].Url = url
+				rules[rindex].Url = url
+			} else {
+				menu.Dailys[index].Dishes[index2].Url = rules[rindex].Url
+			}
+		}
 	}
 
-	return rules
-}
-func main()  {
-	fmt.Println("亲爱的老婆程序启动了，请稍等片刻")
-	defer time.Sleep(60 * time.Second) 
-	rules := ReadRule()
 	var filename = "./output.html"
 	f, err1 := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0666)
 	if err1 != nil {
@@ -175,33 +228,8 @@ func main()  {
 		return
 	}
 	defer f.Close()
-
-	menu := parseexcel()
-	failed := false
-	for index, _ := range menu.Dailys {
-		for index2, _ := range menu.Dailys[index].Dishes {
-			dish, ok := rules[menu.Dailys[index].Dishes[index2].Name]
-			if !ok || dish.Type == "" {
-				fmt.Println(menu.Dailys[index].Dishes[index2].Name)
-				failed = true
-				continue
-			}
-
-			menu.Dailys[index].Dishes[index2].Type = dish.Type
-			if dish.Url != "" {
-				menu.Dailys[index].Dishes[index2].Url = dish.Url
-			} else {
-				url := GetMenuUrl(dish.Name)
-				menu.Dailys[index].Dishes[index2].Url = url
-			}
-		}
-	}
-	if failed {
-		fmt.Println("将上述菜名写入规则库，谢谢，亲爱的宝贝")
-		return
-	}
 	// 读取templlate文件
-	t, err := template.ParseFiles("./layouts/main.tmpl","./layouts/daily.tmpl")
+	t, err := template.ParseFiles("./layouts/main.tmpl", "./layouts/daily.tmpl")
 	if err != nil {
 		fmt.Println(err)
 		return
